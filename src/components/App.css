@@ -1,0 +1,10 @@
+.myImage {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.myPanel {
+    margin:0.5em;
+    float:left;
+}
