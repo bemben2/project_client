@@ -5,9 +5,9 @@ class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: "misiek",
-            email: "emfffad@sdf",
-            password: "dsaf",
+            name: "",
+            email: "",
+            password: "",
             master: false,
             isValid: true
         }
@@ -52,13 +52,9 @@ class SignUp extends Component {
                     this.setState({ isValid: false });
                 } else {
                     var user = response;
-                    console.log("user" + user.token);
+                   // console.log("user" + user.token);
                     this.props.assignUser(response.id, user.name, user.email, user.token, user.isMaster);
                 }
-                // assignUser(user);
-                // localStorage.setItem("user", user);
-                // console.log('Email =====' + user.token);
-                // console.log(localStorage.getItem(user.email));
             })
             .catch(error => console.log(error));
 

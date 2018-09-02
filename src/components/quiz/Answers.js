@@ -51,7 +51,7 @@ class Answers extends Component {
         // console.log(allValues);
 
         if (allValues.length > 1 && index < allValues.length) {
-            console.log("slice " + index);
+            //console.log("slice " + index);
             lastAnswers=_.slice(lastAnswers, allValues[index - 1].length, lastAnswers.length);
         } else {
             lastAnswers = allValues[index];
@@ -67,7 +67,7 @@ class Answers extends Component {
             questionId: this.props.questionId,
             correct: correct
         };
-        console.log(answer);
+        //console.log(answer);
         this.props.updateResult(answer);
         this.setState({
             index: this.state.index + 1
@@ -96,7 +96,7 @@ class Answers extends Component {
                         </ToggleButtonGroup>
                     </Panel.Body>
                     <Panel.Footer>
-                        <Button bsStyle="success" bsSize="small" onClick={this.nextQuestionHandle}>
+                        <Button bsStyle="primary" bsSize="small" onClick={this.nextQuestionHandle}>
                             {this.props.questionsLength > this.props.indexQ ? "Next Question" : "Finish Quiz"}
                         </Button>
                     </Panel.Footer>
@@ -112,7 +112,7 @@ class Answers extends Component {
                     values: []
                 }
             }, () => {
-                console.log("componentDidUpdate");
+                //console.log("componentDidUpdate");
             });
             this.handleChange([arr]);
             this.getFetch();

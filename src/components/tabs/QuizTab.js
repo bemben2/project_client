@@ -39,11 +39,16 @@ class QuizTab extends Component {
         ></QuizPanel>
     }
 
+    showQuizzes = () => {
+        this.setState({
+            takeQuiz :false
+        })
+    }
     render() {
         return (
             <React.Fragment>
                 {!this.state.takeQuiz && (this.state.quizzes ? this.state.quizzes.map(this.quizzesToQuizPanel) : 'Loading...')}
-                {this.state.takeQuiz && <Quiz quiz={this.state.quizToTake} token={this.state.token} userId={this.state.userId}></Quiz>}
+                {this.state.takeQuiz && <Quiz quiz={this.state.quizToTake} showQuizzes={this.showQuizzes} token={this.state.token} userId={this.state.userId}></Quiz>}
             </React.Fragment>
         );
     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Panel, Well,Button,Glyphicon } from 'react-bootstrap';
+import { Panel, Well, Button, Glyphicon } from 'react-bootstrap';
 
 class QuizPanel extends Component {
     constructor(props) {
@@ -29,7 +29,7 @@ class QuizPanel extends Component {
                         Name: {this.state.quiz.name}<br></br>
                         Duration: {this.state.quiz.duration} minutes<br></br>
                     </Well>
-                    <Button bsStyle="success" bsSize="small" onClick={()=>this.props.onClick(this.state.quiz)}>Take this quiz</Button>
+                    <Button bsStyle="primary" bsSize="small" onClick={()=>this.props.onClick(this.state.quiz)}>Take this quiz</Button>
                 </Panel.Body>
                 <Panel.Footer>
                     <i>by: {this.state.author.name}</i><br></br>

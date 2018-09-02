@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Panel } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+
 class QuizTable extends Component {
 	constructor(props) {
 		super(props);
@@ -70,10 +71,10 @@ class QuizTable extends Component {
 		return (
 			<React.Fragment>
 				<Panel>
-					<Panel.Body>
+					<Panel.Heading>
 						List of created by you quizzies<br></br>
-					</Panel.Body>
-				</Panel>
+					</Panel.Heading>
+				<Panel.Body>
 
 				< BootstrapTable
 					data={this.state.tableData}
@@ -107,6 +108,8 @@ class QuizTable extends Component {
 						dataFormat={this.manageTableButton}
 					>Manage Questions</TableHeaderColumn>
 				</BootstrapTable >
+				</Panel.Body>
+				</Panel>
 			</React.Fragment>
 		);
 	}

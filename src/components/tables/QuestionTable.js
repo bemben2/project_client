@@ -47,35 +47,39 @@ class QuestionTable extends Component {
         return (
             <React.Fragment>
                 <Panel>
-                <Panel.Body>
-                    Quiz <Badge>{this.state.quiz.name}</Badge><br></br>
-                    Create questions for this quiz<br></br>
-                </Panel.Body>
+                    <Panel.Heading>
+                        Quiz <Badge>{this.state.quiz.name}</Badge><br></br>
+                        Create questions for this quiz<br></br>
+                    </Panel.Heading>
+                    <Panel.Body>
+                        < BootstrapTable
+                            data={this.state.tableData}
+                            cellEdit={cellEditProp}
+                            selectRow={selectRow}
+                            options={tableOptions}
+                            responsive hover pagination insertRow deleteRow>
+                            <TableHeaderColumn dataField='id'
+                                isKey
+                                autoValue={true}
+                                editable={false}
+                            >Quiz ID</TableHeaderColumn>
+                            <TableHeaderColumn dataField='title'
+                                editable={{ validator: this.quizNameAndCategoryValidator }}
+                            >Title</TableHeaderColumn>
+                            <TableHeaderColumn dataField='body'
+                                editable={{ type: 'textarea', validator: this.quizNameAndCategoryValidator }}
+                            >Body</TableHeaderColumn>
+                            <TableHeaderColumn dataField='button'
+                                hiddenOnInsert
+                                editable={false}
+                                dataFormat={this.manageAnswersnButton}
+                            >Manage Answers</TableHeaderColumn>
+                        </BootstrapTable >
+                    </Panel.Body>
+                    <Panel.Footer>
+                        <Button bsStyle="primary" onClick={() => this.props.onClick("row", "quiz")}>Back to Quizzes</Button>
+                    </Panel.Footer>
                 </Panel>
-                < BootstrapTable
-                    data={this.state.tableData}
-                    cellEdit={cellEditProp}
-                    selectRow={selectRow}
-                    options={tableOptions}
-                    responsive hover pagination insertRow deleteRow>
-                    <TableHeaderColumn dataField='id'
-                        isKey
-                        autoValue={true}
-                        editable={false}
-                    >Quiz ID</TableHeaderColumn>
-                    <TableHeaderColumn dataField='title'
-                        editable={{ validator: this.quizNameAndCategoryValidator }}
-                    >Title</TableHeaderColumn>
-                    <TableHeaderColumn dataField='body'
-                        editable={{ type: 'textarea', validator: this.quizNameAndCategoryValidator }}
-                    >Body</TableHeaderColumn>
-                    <TableHeaderColumn dataField='button'
-                        hiddenOnInsert
-                        editable={false}
-                        dataFormat={this.manageAnswersnButton}
-                    >Manage Answers</TableHeaderColumn>
-                </BootstrapTable >
-                <Button onClick={() => this.props.onClick("row", "quiz")}>Back to Quizzes</Button>
             </React.Fragment>
         );
     }
@@ -92,11 +96,11 @@ class QuestionTable extends Component {
         console.log("row.id" + row.id);
 
         let data = `{
-			"id": ${row.id},
+                    "id": ${row.id},
 			"quizId": ${this.state.quiz.id},
 			"title": "${row.title}",
 			"body" : "${row.body}"
-        }`;
+            }`;
         this.putFetchQuestion(data, row.id);
     }
 
@@ -120,10 +124,10 @@ class QuestionTable extends Component {
 
     handleInsertedRow = (row) => {
         let data = `{
-			"quizId": ${this.state.quiz.id},
+                    "quizId": ${this.state.quiz.id},
 			"title": "${row.title}",
 			"body" : "${row.body}"
-        }`;
+            }`;
         this.postFetchQuestion(data);
     }
 

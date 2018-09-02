@@ -5,8 +5,8 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: "msuser@gmail.com",
-            password: "123",
+            email: "",
+            password: "",
             isValid: true
         }
         this.handleChange = this.handleChange.bind(this);
@@ -42,7 +42,7 @@ class Login extends Component {
     }
 
     handleChange(event) {
-        console.log(event.target.id);
+        //console.log(event.target.id);
         if (event.target.name === "login") {
             this.setState({ email: event.target.value });
         } else if (event.target.name === "passField") {

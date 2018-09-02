@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Panel } from 'react-bootstrap';
+import { Badge, Button, Panel } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import dateformat from 'dateformat';
 
-class UserResultsTab extends Component {
+class MasterResultsTab extends Component {
     constructor(props) {
         super(props);
         this.state = ({
+
             tableData: null,
             quizzes: null,
             results: null
@@ -20,40 +21,37 @@ class UserResultsTab extends Component {
     }
 
     render() {
-        const selectRow = {
-            clickToSelect: true
-        }
-
+        
         return (
             <React.Fragment>
                 <Panel>
                     <Panel.Heading>
-                        You finished the quiz
+                    To display results click on <Badge>Show Result</Badge> button
                     </Panel.Heading>
                     <Panel.Body>
-                        <React.Fragment>
-                            <Panel>
-                                <Panel.Body>
-                                    List of results
-                                </Panel.Body>
-                            </Panel>
-
-                            < BootstrapTable
-                                data={this.state.tableData}
-                                selectRow={selectRow}
-                                hover pagination>
-                                <TableHeaderColumn dataField='quizId' >Quiz Name</TableHeaderColumn>
-                                <TableHeaderColumn isKey dataField='finishedAt' dataFormat={this.dateFormatter}>Finished At</TableHeaderColumn>
-                                <TableHeaderColumn dataField='questionNo'>Questions No.</TableHeaderColumn>
-                                <TableHeaderColumn dataField='answers' dataFormat={this.answersFormatter}>Results</TableHeaderColumn>
-
-                            </BootstrapTable >
-                        </React.Fragment>
+                        < BootstrapTable
+                            data={this.state.tableData}
+                            hover pagination >
+                            <TableHeaderColumn dataField='id' isKey >Quiz ID</TableHeaderColumn>
+                            <TableHeaderColumn dataField='name'>Quiz Name</TableHeaderColumn>
+                            <TableHeaderColumn dataField='category'>Category</TableHeaderColumn>
+                            <TableHeaderColumn dataField='duration'>Duration</TableHeaderColumn>
+                            <TableHeaderColumn dataField='level'>Level</TableHeaderColumn>
+                            <TableHeaderColumn dataField='active'>Active</TableHeaderColumn>
+                            <TableHeaderColumn dataField='button' dataFormat={this.showResultsButtonFormater} >Show Results</TableHeaderColumn>
+                        </BootstrapTable >
                     </Panel.Body>
                 </Panel>
             </React.Fragment>
         );
     }
+
+    showResultsButtonFormater = (cell, row) => {
+        return (
+            <Button onClick={() => this.props.onClick(row, 'results')}>Show Results</Button>
+        );
+    }
+
     answersFormatter = (cell, row) => {
         var noQuestion = row.questionNo;
         let noCorrect = 0;
@@ -80,6 +78,22 @@ class UserResultsTab extends Component {
     }
 
     getFetch = () => {
+        var url = "http://localhost:3000/api/quizzes";
+
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.props.token
+            }
+        })
+            .then(res => res.json())
+            .then(json => {
+                json = json.filter(({ authorId }) => authorId === this.props.userId);
+                this.setState({ tableData: json });
+            });
+    }
+    getFetch2 = () => {
         var url = `http://localhost:3000/api/results/user/${this.props.userId}`;
 
         fetch(url, {
@@ -121,4 +135,4 @@ class UserResultsTab extends Component {
     }
 }
 
-export default UserResultsTab;
+export default MasterResultsTab;

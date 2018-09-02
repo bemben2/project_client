@@ -30,8 +30,7 @@ class App extends Component {
 				<Grid>
 					<Row className="show-grid">
 						<Col xs={12} md={12}>
-							{this.state.signup ? <BannerWithLogin onClick={this.loginOrSingUp} /> : null}
-							{this.state.login ? <BannerWithSignUp onClick={this.loginOrSingUp} /> : null}
+							{this.state.login ? <BannerWithSignUp onClick={this.loginOrSingUp} /> : <BannerWithLogin onClick={this.loginOrSingUp} />}
 						</Col>
 					</Row>
 					<Row className="show-grid">
@@ -39,8 +38,11 @@ class App extends Component {
 							<img src="logo.jpg" width="100" height="60" alt="Logo"></img>
 						</Col>
 						<Col xs={9} md={8}>
-							{this.state.signup ? <SingUp assignUser={(userId, user, email, token, isMaster) => this.assignUser(userId, user, email, token, isMaster)} /> : null}
-							{this.state.login ? <Login assignUser={(userId, user, email, token, isMaster) => this.assignUser(userId, user, email, token, isMaster)} /> : null}
+							{this.state.login ?
+								<Login assignUser={(userId, user, email, token, isMaster) => this.assignUser(userId, user, email, token, isMaster)} />
+								:
+								<SingUp assignUser={(userId, user, email, token, isMaster) => this.assignUser(userId, user, email, token, isMaster)} />
+							}
 						</Col>
 						<Col xs={1} md={2}>
 
@@ -94,11 +96,11 @@ class App extends Component {
 			email: email,
 			token: token,
 			isMaster: isMaster,
+			login: true
 		});
 	}
 
 	loginOrSingUp = () => {
-		console.log('loginHandle()');
 		this.setState(prevState => {
 			return {
 				login: !prevState.login,

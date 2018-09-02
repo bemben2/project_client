@@ -49,34 +49,35 @@ class AnswerTable extends Component {
         return (
             <React.Fragment>
                 <Panel>
-                    <Panel.Body>
+                    <Panel.Heading>
                         Quiz <Badge>{this.state.quiz.name}</Badge><br></br>
                         Question <Badge>{this.state.question.body}</Badge> - <Badge>{this.state.question.body}</Badge><br></br>
                         Create answers for this question<br></br>
+                    </Panel.Heading>
+                    <Panel.Body>
+                        < BootstrapTable
+                            data={this.state.tableData}
+                            cellEdit={cellEditProp}
+                            selectRow={selectRow}
+                            options={tableOptions}
+                            responsive hover pagination insertRow deleteRow>
+                            <TableHeaderColumn dataField='id'
+                                isKey
+                                autoValue={true}
+                                editable={false}
+                            >Answer ID</TableHeaderColumn>
+                            <TableHeaderColumn dataField='content'
+                                editable={{ type: 'textarea', validator: this.answerContentValidator }}
+                            >Content</TableHeaderColumn>
+                            <TableHeaderColumn dataField='result'
+                                editable={{ type: 'select', options: { values: ['false', 'true'] } }}
+                            >Result</TableHeaderColumn>
+                        </BootstrapTable>
                     </Panel.Body>
+                    <Panel.Footer>
+                        <Button bsStyle="primary" onClick={() => this.props.onClick(this.state.quiz, "question")}>Back to Question</Button>
+                    </Panel.Footer>
                 </Panel>
-                < BootstrapTable
-                    data={this.state.tableData}
-                    cellEdit={cellEditProp}
-                    selectRow={selectRow}
-                    options={tableOptions}
-                    responsive hover pagination insertRow deleteRow>
-                    <TableHeaderColumn dataField='id'
-                        isKey
-                        autoValue={true}
-                        editable={false}
-                    >Answer ID</TableHeaderColumn>
-
-                    <TableHeaderColumn dataField='content'
-                        editable={{ type: 'textarea', validator: this.answerContentValidator }}
-                    >Content</TableHeaderColumn>
-
-                    <TableHeaderColumn dataField='result'
-                        editable={{ type: 'select', options: { values: ['false', 'true'] } }}
-                    >Result</TableHeaderColumn>
-
-                </BootstrapTable>
-                <Button onClick={() => this.props.onClick(this.state.quiz, "question")}>Back to Question</Button>
             </React.Fragment>
         );
     }
