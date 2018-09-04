@@ -52,8 +52,8 @@ class App extends Component {
 			);
 		}
 
-		if (this.state.token !== null || this.state.token !== '' || this.state.token === 'undefined') {
-			//console.log("token istnieje: " + this.state.token);
+		if (this.state.token !== null && this.state.token !== '') {
+			console.log("token istnieje: " + this.state.token + "master is= " + this.state.isMaster);
 			return (
 				<Grid>
 					<Row className="show-grid">

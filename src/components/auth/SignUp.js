@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Checkbox, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { HelpBlock, Button, Checkbox, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
 class SignUp extends Component {
     constructor(props) {
@@ -28,36 +28,37 @@ class SignUp extends Component {
     }
 
     handleSubmit(event) {
-        // console.log(`name: ${this.state.name} email: ${this.state.email} pass ${this.state.password},${this.state.master} `);
-        var data = `{
+        if ((this.state.password.length < 6) || !this.state.email || !this.state.password || !this.state.name) {
+            this.setState({ isValid: false });
+        } else {
+            var data = `{
             "name": "${this.state.name}",
             "email": "${this.state.email}",
             "password": "${this.state.password}",
             "master": ${this.state.master}
             }`;
 
-        console.log(this.props);
-        var url = "http://localhost:3000/api/auth/signup";
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: data
-        })
-            .then(res => res.json())
-            .then(response => {
-                console.log(response);
-                if (response === 'Validation error') {
-                    this.setState({ isValid: false });
-                } else {
-                    var user = response;
-                   // console.log("user" + user.token);
-                    this.props.assignUser(response.id, user.name, user.email, user.token, user.isMaster);
-                }
-            })
-            .catch(error => console.log(error));
 
+            var url = "http://localhost:3000/api/auth/signup";
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: data
+            })
+                .then(res => res.json())
+                .then(response => {
+                    console.log(response);
+                    if (response === 'Validation error') {
+                        this.setState({ isValid: false });
+                    } else {
+                        var user = response;
+                        this.props.assignUser(response.id, user.name, user.email, user.token, user.master);
+                    }
+                })
+                .catch(error => console.log(error));
+        }
         event.preventDefault();
     }
 
@@ -66,17 +67,18 @@ class SignUp extends Component {
             <Form onSubmit={this.handleSubmit}>
                 <FormGroup controlId="nameFG" validationState={this.getValidation()}>
                     <ControlLabel> Name </ControlLabel>
-                    <FormControl name="nameIn" type="text" placeholder="your name" value={this.state.name} onChange={this.handleChange}></FormControl>
+                    <FormControl id="nameFG" name="nameIn" type="text" value={this.state.name} onChange={this.handleChange}></FormControl>
                     <FormControl.Feedback />
                 </FormGroup>
 
                 <FormGroup controlId="emailFG" validationState={this.getValidation()}>
                     <ControlLabel> Email </ControlLabel>
                     <FormControl name="loginIn" type="email" value={this.state.email} onChange={this.handleChange}></FormControl>
+                    <HelpBlock>We'll never share your email with anyone else.</HelpBlock>
                     <FormControl.Feedback />
                 </FormGroup>
 
-                <FormGroup controlId="passwordFG" validationState={this.getValidation()}>
+                <FormGroup controlId="passwordFG" validationState={this.getPassValidation()}>
                     <ControlLabel> Password </ControlLabel>
                     <FormControl name="passwordIn" type="password" value={this.state.password} onChange={this.handleChange}></FormControl>
                     <FormControl.Feedback />
@@ -90,7 +92,13 @@ class SignUp extends Component {
             </Form >
         );
     }
-
+    getPassValidation = () => {
+        const length = this.state.password.length;
+        if (length > 5) return 'success';
+        else if (length > 0) return 'error';
+        return null;
+        // return 'success'; 'warning';'error';
+    }
     getValidation = () => {
         if (!this.state.isValid) {
             return 'error';

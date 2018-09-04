@@ -38,10 +38,10 @@ class MasterResultsTable extends Component {
                         </BootstrapTable >
                     </Panel.Body>
                     <Panel.Footer>
-                        <Button bsStyle="primary" onClick={this.props.onClick}>Back</Button>
+                        <Button id="b1" bsStyle="primary" onClick={this.props.onClick}>Back</Button>
                     </Panel.Footer>
                 </Panel>
-            </React.Fragment>
+            </React.Fragment> 
         );
     }
     answersFormatter = (cell, row) => {

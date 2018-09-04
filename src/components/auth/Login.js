@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
 class Login extends Component {
     constructor(props) {
@@ -14,30 +14,34 @@ class Login extends Component {
     }
 
     handleSubmit(event) {
+        if (!this.state.email || !this.state.password) {
+            this.setState({ isValid: false });
+        } else {
 
-        var data = `{
-            "email": "${this.state.email}",
-            "password": "${this.state.password}"
+            var data = `{
+                "email": "${this.state.email}",
+                "password": "${this.state.password}"
             }`;
 
-        var url = "http://localhost:3000/api/auth/signin";
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: data
-        })
-            .then(res => res.json())
-            .then(response => {
-                //console.log(response);
-                if (response === 'no user with this login' || response === "wrong password") {
-                    this.setState({ isValid: false });
-                } else {
-                    this.props.assignUser(response.id, response.name, response.email, response.token, response.master);
-                }
+            var url = "http://localhost:3000/api/auth/signin";
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: data
             })
-            .catch(error => console.log(error));
+                .then(res => res.json())
+                .then(response => {
+                    //console.log(response);
+                    if (response === 'no user with this login' || response === "wrong password") {
+                        this.setState({ isValid: false });
+                    } else {
+                        this.props.assignUser(response.id, response.name, response.email, response.token, response.master);
+                    }
+                })
+                .catch(error => console.log(error));
+        }
         event.preventDefault();
     }
 
@@ -68,7 +72,6 @@ class Login extends Component {
                     <ControlLabel> Email </ControlLabel>
                     <FormControl name="login" type="email" value={this.state.email} onChange={this.handleChange}></FormControl>
                     <FormControl.Feedback />
-                    <HelpBlock>We'll never share your email with anyone else.</HelpBlock>
                 </FormGroup>
 
                 <FormGroup controlId="password" validationState={this.getValidation()}>
